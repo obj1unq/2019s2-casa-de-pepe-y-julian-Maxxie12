@@ -1,10 +1,17 @@
 import cosas.* 
+import cuentaBancaria.*
 
 object casaDePepeYJulian {
 	const cosas = []
+	var cuenta = cuentaCorriente
 	
 	method comprar(cosa) {
 		cosas.add(cosa)
+		self.gastar(cosa.precio())
+	}
+	
+	method gastar (importe) {
+		cuenta.extraer(importe)
 	}
 	method cantidadDeCosasCompradas() {
 		cosas.size()
@@ -27,8 +34,15 @@ object casaDePepeYJulian {
 		return cosas.filter ({cosa => cosa.esElectrodomestico()})
 	}
 	method malaEpoca() {
-		return ( cosas.all ({cosa => cosa.esComida()}))
+		return (cosas.all ({cosa => cosa.esComida()}))
 	}
 	
+	method queFaltaComprar(lista) {
+    		return  (lista.asSet().difference(cosas.asSet())).asList()
+	}
+	
+	method faltaComida() {
+		return (cosas.sum ({cosa => cosa.esComida()})> 2)
+	}
 	
 }
